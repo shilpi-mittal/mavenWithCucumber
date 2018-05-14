@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>testModule</artifactId>
+    <groupId>mavenWithCucumber</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>functionalTests</artifactId>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>testCore</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-picocontainer</artifactId>
+      <version>1.2.5</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>1.2.5</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.picocontainer</groupId>
+      <artifactId>picocontainer</artifactId>
+      <version>2.15</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>1.2.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <profiles>
+    <profile>
+      <id>testing</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.17</version>
+            <configuration>
+              <excludes>
+                <exclude>
+                  **.java
+                </exclude>
+              </excludes>
+              <groups>${group}</groups>
+
+              <!--to run tests in parallel-->
+              <!--<parallel>methods</parallel>-->
+              <!--<threadCount>4</threadCount>-->
+
+              <!--to run tests in series-->
+              <forkMode>always</forkMode>
+
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>testNGTest</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.21.0</version>
+            <configuration>
+              <excludes>
+                <exclude>
+                  **.java
+                </exclude>
+              </excludes>
+              <suiteXmlFiles>
+                <!--mention complete path of the xml file-->
+                <suiteXmlFile>src/test/java/functional/testNG.xml</suiteXmlFile>
+              </suiteXmlFiles>
+              <forkMode>always</forkMode>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>cucumberTests</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+              <execution>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <!--<excludes>-->
+                <!--<exclude>**.feature</exclude>-->
+                <!--<exclude>**.java</exclude>-->
+              <!--</excludes>-->
+              <executableDependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-core</artifactId>
+              </executableDependency>
+              <mainClass>cucumber.api.cli.Main</mainClass>
+              <arguments>
+                <argument>--format</argument>
+                <argument>junit:target/cucumber-junit-report/allcukes.xml</argument>
+                <argument>--format</argument>
+                <argument>pretty</argument>
+                <argument>--format</argument>
+                <argument>html:target/cucumber-html-report</argument>
+                <argument>--tags</argument>
+                <argument>@cucumberTest</argument>
+                <argument>--glue</argument>
+                <argument>src/test/resources/features/</argument>
+                <argument>src/test/resources/features/</argument>
+              </arguments>
+              <!--<forkMode>always</forkMode>-->
+            </configuration>
+            <dependencies>
+              <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-core</artifactId>
+                <version>1.2.5</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

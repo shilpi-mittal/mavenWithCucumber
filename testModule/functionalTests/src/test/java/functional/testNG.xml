@@ -1,0 +1,13 @@
+<suite name="tetNG Test" verbose="10" allow-return-values="true">
+  <test name="tetNG test">
+    <groups>
+      <run>
+        <!-- to include group name-->
+        <include name="testNG"/>
+      </run>
+    </groups>
+    <packages>
+      <package name="functional"/>
+    </packages>
+  </test>
+</suite>

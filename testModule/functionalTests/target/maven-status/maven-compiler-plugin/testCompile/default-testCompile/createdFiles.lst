@@ -1,0 +1,4 @@
+stepDefinitions\SearchTestSteps.class
+functional\BasicSearchTest.class
+functional\File2Test.class
+CucumberFileTest.class

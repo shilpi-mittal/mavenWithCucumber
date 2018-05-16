@@ -78,3 +78,9 @@ To run TestNG tests, we can create a profile in two ways
 *	To execute the task,
 	  * cd into the module, and say
 	  * mvn test -PcucumberTests
+
+Please feel free to use it..
+
+Suggestions, comments and improvements are welcome. Also, feel free to contact me.
+
+Stayed tuned for Rest test repo and advanced Selenium implementations.
